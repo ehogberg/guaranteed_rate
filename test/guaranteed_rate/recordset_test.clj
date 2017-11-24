@@ -1,5 +1,6 @@
 (ns guaranteed-rate.recordset-test
   (:require [guaranteed-rate.recordset :as rs]
+            [clj-time.format :as tf]
             [clojure.test :refer :all]))
 
 ;; Expected outputs from known valid inputs.
@@ -42,4 +43,36 @@
     (is (= (rs/to-map standard-vec) standard-map)))
   (testing "take only the first five fields supplied"
     (is (= (rs/to-map (conj standard-vec "someAdditionalContent"))
-           standard-map))))
+           standard-map)))
+  (testing "try to make a map even w/ incomplete info."
+    (is (= (rs/to-map ["not" "enough" "content"])
+           {:lname "not"
+            :fname "enough"
+            :gender "content"
+            :color nil
+            :birthdate nil})))
+  (testing "try our best to make a map, given oddly parsed info"
+    (is (= (rs/to-map odd-delimiter-vec)
+           {:lname "hogberg"
+            :fname "*"
+            :gender "eric"
+            :color "*"
+            :birthdate "male"}))))
+
+(deftest validate-map
+  (testing "Valid map is recognized as such"
+    (is (= (rs/validate-map standard-map) standard-map)))
+  (testing "Invalid map throws exception"
+    (is (thrown? Exception (rs/validate-map {:lname "incomplete"})))))
+
+(deftest convert-birthdate
+  (testing "birthdate is properly converted to a proper Date type"
+    (let [birthdate-as-date (tf/parse (tf/formatters :date)
+                                      (:birthdate standard-map))
+          map-with-birthdate (assoc standard-map
+                                    :birthdate-as-date birthdate-as-date)]
+      (is (= (rs/convert-birthdate standard-map) map-with-birthdate))))
+  (testing "invalid date format throws exception on conversion"
+    (is (thrown? Exception
+                 (rs/convert-birthdate (assoc standard-map
+                                              :birthdate "MON-DAY-YEAR"))))))
