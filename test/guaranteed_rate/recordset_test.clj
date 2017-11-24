@@ -48,9 +48,7 @@
     (is (= (rs/to-map ["not" "enough" "content"])
            {:lname "not"
             :fname "enough"
-            :gender "content"
-            :color nil
-            :birthdate nil})))
+            :gender "content"})))
   (testing "try our best to make a map, given oddly parsed info"
     (is (= (rs/to-map odd-delimiter-vec)
            {:lname "hogberg"
@@ -63,7 +61,13 @@
   (testing "Valid map is recognized as such"
     (is (= (rs/validate-map standard-map) standard-map)))
   (testing "Invalid map throws exception"
-    (is (thrown? Exception (rs/validate-map {:lname "incomplete"})))))
+    (is (thrown? Exception (rs/validate-map {:lname "incomplete"}))))
+  (testing "Nil values for fields still fail validation"
+    (is (thrown? Exception (rs/validate-map {:lname "lname"
+                                             :fname "fname"
+                                             :gender "male"
+                                             :color "green"
+                                             :birthdate nil})))))
 
 (deftest convert-birthdate
   (testing "birthdate is properly converted to a proper Date type"
