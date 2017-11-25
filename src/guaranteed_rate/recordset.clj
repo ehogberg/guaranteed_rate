@@ -31,9 +31,11 @@
     (let [converted-birthdate (tf/parse (tf/formatters :date)
                                         (:birthdate m))]
       (assoc m :birthdate-as-date converted-birthdate))
-    (catch Exception e (throw (ex-info
-                               "Converting birthdate to datetype failed"
-                               {:cause :failed-birthdate-conversion})))))
+    (catch Exception e
+      (throw
+       (ex-info
+        (format "Converting birthdate %s to datetype failed" (:birthdate m))
+        {:cause :failed-birthdate-conversion})))))
 
 
 ;; The pipeline that fully processes a line and converts it into a record.

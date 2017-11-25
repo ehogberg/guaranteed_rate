@@ -42,10 +42,20 @@
 ;; record exceptions for lines that fail processing.
 ;;
 ;; b) Clear out previously processed records and exception details.
+;;
+;; c) Get the current list of processing exceptions recorded to this point.
+;;
+;; d) Get the list of successfully processed records known to this point.
+;;    This list can be in unsorted order, or sorted by gender/lastname,
+;;    birthdate or lastname.
 
 (defn clear-processed-records [] (dosync (ref-set processed-records [])
                                          (ref-set processing-exceptions [])))
 
+(defn get-processed-records
+  ([] @processed-records))
+
+(defn get-processing-exceptions [] @processing-exceptions)
 
 (defn process-record [l]
   (try
