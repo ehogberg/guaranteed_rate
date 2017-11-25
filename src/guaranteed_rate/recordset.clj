@@ -11,7 +11,7 @@
 
 (defn- find-split-regex [l]
   (if (re-find #",|\|" l)
-    #"\s(,|\|)\s"
+    #"\s?(,|\|)\s?"
     #" "))
 
 (defn parse-line [l]
