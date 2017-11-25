@@ -3,7 +3,7 @@
             [clojure.test :refer :all]))
 
 (def lines ["hogberg eric male green 1987-01-28"
-            "jones , colby , male , purple , 2002-12-18"
+            "Jones , colby , male , purple , 2002-12-18"
             "bittner | joshua | male | red | 2000-10-31"
             "hogberg valerie female green 2006-06-19"])
 
@@ -38,7 +38,7 @@
     (let [r (api/get-processed-records :lastname)
           first-record (first r)
           last-record (last r)]
-      (is (= "jones" (:lname first-record)))
+      (is (= "Jones" (:lname first-record)))
       (is (= "bittner" (:lname last-record)))))
   (testing "sort by birthdate"
     (let [r (api/get-processed-records :birthdate)
@@ -52,5 +52,5 @@
           last-record (last r)]
       (is (and (= "valerie" (:fname first-record))
                (= "hogberg" (:lname first-record))))
-      (is (and (= "jones" (:lname last-record)))))))
+      (is (and (= "Jones" (:lname last-record)))))))
 
