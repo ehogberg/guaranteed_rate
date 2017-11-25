@@ -12,7 +12,6 @@
                    :color  "green"
                    :birthdate "1987-01-28"})
 
-
 ;; Known good inputs.
 (def space-delimited-line "hogberg eric male green 1987-01-28")
 

@@ -3,9 +3,13 @@
             [clj-time.format :as tf]
             [clj-time.core :as time]))
 
+;; The ordered field list of our record.
 (def field-list [:lname :fname :gender :color :birthdate])
 
-(defn find-split-regex [l]
+
+;; Record parsing and validation functions.
+
+(defn- find-split-regex [l]
   (if (re-find #",|\|" l)
     #"\s(,|\|)\s"
     #" "))
@@ -30,3 +34,11 @@
     (catch Exception e (throw (ex-info
                                "Converting birthdate to datetype failed"
                                {:cause :failed-birthdate-conversion})))))
+
+
+;; The pipeline that fully processes a line and converts it into a record.
+(defn transform-line-to-record [l]
+  (-> (parse-line l)
+      (to-map)
+      (validate-map)
+      (convert-birthdate)))
