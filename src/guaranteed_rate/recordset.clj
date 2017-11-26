@@ -18,7 +18,11 @@
   (split l (find-split-regex l)))
 
 (defn to-map [v]
-  (zipmap field-list v))
+  (if (= (count v)
+         (count field-list))
+    (zipmap field-list v)
+    (throw (ex-info "Incomplete record"
+                    {:cause :incomplete-record}))))
 
 (defn validate-map [m]
   (if (every? #(re-find #"\S+" (get m %)) field-list)

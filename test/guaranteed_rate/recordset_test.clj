@@ -48,21 +48,13 @@
 (deftest recordset-to-map
   (testing "known good input produces a normal map"
     (is (= (rs/to-map standard-vec) standard-map)))
-  (testing "take only the first five fields supplied"
-    (is (= (rs/to-map (conj standard-vec "someAdditionalContent"))
-           standard-map)))
-  (testing "try to make a map even w/ incomplete info."
-    (is (= (rs/to-map ["not" "enough" "content"])
-           {:lname "not"
-            :fname "enough"
-            :gender "content"})))
-  (testing "try our best to make a map, given oddly parsed info"
-    (is (= (rs/to-map odd-delimiter-vec)
-           {:lname "hogberg"
-            :fname "*"
-            :gender "eric"
-            :color "*"
-            :birthdate "male"}))))
+  (testing "reject a map with too many fields"
+    (is (thrown? Exception
+                 (rs/to-map (conj standard-vec "someAdditionalContent")))))
+  (testing "Reject a vector w/ incomplete info."
+    (is (thrown? Exception  (rs/to-map ["not" "enough" "content"]))))
+  (testing "Reject a map submitted with oddly parsed info"
+    (is (thrown? Exception (rs/to-map odd-delimiter-vec)))))
 
 (deftest validate-map
   (testing "Valid map is recognized as such"
