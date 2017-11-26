@@ -36,13 +36,14 @@
 (defn- add-record [r]
   (dosync (alter processed-records conj r)))
 
-(defn- format-processing-exception [l e]
+(defn- format-processing-exception [l f e]
   {:original-line l
+   :original-file f
    :exception-message (.getMessage e)})
 
-(defn- add-process-exception [l e]
+(defn- add-process-exception [l f e]
   (dosync (alter processing-exceptions
-                 conj (format-processing-exception l e))))
+                 conj (format-processing-exception l f e))))
 
 (defn- formatted-birthdate [r]
   (tf/unparse (tf/formatter "MM/dd/yyyy") (:birthdate-as-date r)))
@@ -80,12 +81,12 @@
 
 (defn get-processing-exceptions [] @processing-exceptions)
 
-(defn process-record [l]
+(defn process-record [l & [file]]
   (try
     (let [r (transform-line-to-record l)]
       (add-record r)
       {:new-record (format-record r)})
     (catch Exception e
-      (add-process-exception l e)
+      (add-process-exception l file e)
       {:error (.getMessage e)
        :cause (:cause (ex-data e))})))
