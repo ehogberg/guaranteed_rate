@@ -19,10 +19,15 @@
 
 (def comma-delimited-line  "hogberg , eric , male , green , 1987-01-28")
 
+;; Missing interior info.
+(def missing-interior-field-line "hogberg , eric ,   , green , 1987-01-28")
+
+(def missing-interior-field-vec ["hogberg" "eric" " " "green" "1987-01-28"])
 
 ;; For well-intentioned but unknown delimiters, assume space-delimiting.
 ;; This may produce some really strange results.
 (def odd-delimiter-line "hogberg * eric * male * green * 1967-09-27")
+
 (def odd-delimiter-vec ["hogberg" "*" "eric" "*" "male" "*" "green"
                         "*" "1967-09-27"])
 
@@ -34,6 +39,9 @@
     (is (= (rs/parse-line pipe-delimited-line) standard-vec)))
   (testing "parsing command-delimited line into vector"
     (is (= (rs/parse-line comma-delimited-line) standard-vec)))
+  (testing "parsing line w missing field into vector"
+    (is (= (rs/parse-line missing-interior-field-line)
+           missing-interior-field-vec)))
   (testing "parsing unknown delimiter line into vector"
     (is (= (rs/parse-line odd-delimiter-line) odd-delimiter-vec))))
 
@@ -61,6 +69,12 @@
     (is (= (rs/validate-map standard-map) standard-map)))
   (testing "Invalid map throws exception"
     (is (thrown? Exception (rs/validate-map {:lname "incomplete"}))))
+  (testing "Map containing fields with only spaces is rejected"
+    (is (thrown? Exception (rs/validate-map {:lname "lname"
+                                             :fname "fname"
+                                             :gender " "
+                                             :color "green"
+                                             :birthdate "1987-01-01"}))))
   (testing "Nil values for fields still fail validation"
     (is (thrown? Exception (rs/validate-map {:lname "lname"
                                              :fname "fname"

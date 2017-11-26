@@ -21,7 +21,7 @@
   (zipmap field-list v))
 
 (defn validate-map [m]
-  (if (every? #(some? (get m %)) field-list)
+  (if (every? #(re-find #"\S+" (get m %)) field-list)
     m
     (throw (ex-info "At least one required field missing"
                     {:cause :missing-field}))))
