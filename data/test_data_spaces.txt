@@ -1,0 +1,6 @@
+hogberg eric male green 1967-01-27
+hogberg valerie female blue 2004-10-19
+bittner joshua male red 2000-04-27
+hogberg noah male purple 2002-07-26
+pfeffer lisa female orange 1965-05-28
+jones colby male yellow 1962-01-01
