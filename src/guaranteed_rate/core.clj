@@ -1,10 +1,10 @@
 (ns guaranteed-rate.core
   (:gen-class)
-  (:require [clojure.tools.cli :refer [parse-opts]]
-            [clojure.java.io :refer [reader]]
+  (:require [clojure.java.io :refer [reader]]
+            [clojure.tools.cli :refer [parse-opts]]
             [guaranteed-rate.api :as api]
-            [guaranteed-rate.web :refer [start-web]]
-            [guaranteed-rate.reporting :as report]))
+            [guaranteed-rate.reporting :as report]
+            [guaranteed-rate.web :refer [start-web]]))
 
 (def cli-options
   [["-w" "--web-service" "Start JSON web service"]
@@ -47,7 +47,6 @@
   (when (:process-files options)
     (load-files args)
     (report/generate-all-reports))
-  
   (when (:web-service options)
     (start-web)))
 

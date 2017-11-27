@@ -1,7 +1,6 @@
 (ns guaranteed-rate.recordset
-  (:require [clojure.string :refer [split]]
-            [clj-time.format :as tf]
-            [clj-time.core :as time]))
+  (:require [clj-time.format :refer [formatters parse]]
+            [clojure.string :refer [split]]))
 
 ;; The ordered field list of our record.
 (def field-list [:lname :fname :gender :color :birthdate])
@@ -32,8 +31,8 @@
 
 (defn convert-birthdate [m]
   (try
-    (let [converted-birthdate (tf/parse (tf/formatters :date)
-                                        (:birthdate m))]
+    (let [converted-birthdate (parse (formatters :date)
+                                     (:birthdate m))]
       (assoc m :birthdate-as-date converted-birthdate))
     (catch Exception e
       (throw

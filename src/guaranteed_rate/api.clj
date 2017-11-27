@@ -1,18 +1,18 @@
 (ns guaranteed-rate.api
-  (:require [guaranteed-rate.recordset :refer [transform-line-to-record]]
+  (:require [clj-time.format :as tf]
             [clojure.string :refer [lower-case]]
-            [clj-time.format :as tf]))
+            [guaranteed-rate.recordset :refer [transform-line-to-record]]))
 
 ;; Shared state for processed record storage.
 ;; A ref is chosen over an atom b/c this will
 ;; be used by a web-based, multi-threaded API.
 
-(def processed-records (ref []))
+(def ^:private processed-records (ref []))
 
 ;; Storage for processing exceptions.  Ref-based
 ;; for reasons similar to above.
 
-(def processing-exceptions (ref []))
+(def ^:private processing-exceptions (ref []))
 
 
 ;; Configuration functions for use in sorting get-processed-messages

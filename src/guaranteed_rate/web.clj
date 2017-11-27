@@ -1,13 +1,13 @@
 (ns guaranteed-rate.web
-  (:require [guaranteed-rate.api :as api]
-            [compojure.core :refer :all]
-            [compojure.route :as route]
+  (:require [compojure.core :refer [defroutes context GET POST]]
+            [compojure.route :refer [not-found]]
+            [guaranteed-rate.api :refer [process-record get-processed-records]]
             [ring.adapter.jetty :refer [run-jetty]]
-            [ring.util.response :refer [response status]]
-            [ring.middleware.json :refer [wrap-json-response]]))
+            [ring.middleware.json :refer [wrap-json-response]]
+            [ring.util.response :refer [response status]]))
 
 (defn post-record [line]
-  (let [result (api/process-record line)
+  (let [result (process-record line)
         resp-code (if (:error result) 400 200)]
     (-> result
         (response)
@@ -17,12 +17,12 @@
   (context "/records" []
     (POST "/" {:keys [body]} (-> (slurp body) (post-record)))
     (GET "/gender" []
-      (response (api/get-processed-records :gender-lname)))
+      (response (get-processed-records :gender-lname)))
     (GET "/birthdate" []
-      (response (api/get-processed-records :birthdate)))
+      (response (get-processed-records :birthdate)))
     (GET "/name" []
-      (response (api/get-processed-records :lastname)))) 
-  (route/not-found "No matching route found for request"))
+      (response (get-processed-records :lastname)))) 
+  (not-found "No matching route found for request"))
 
 (def app (wrap-json-response handler))
 

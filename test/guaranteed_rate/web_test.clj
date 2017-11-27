@@ -1,15 +1,14 @@
 (ns guaranteed-rate.web-test
-  (:require [guaranteed-rate.web :as web]
-            [guaranteed-rate.core :as core]
-            [guaranteed-rate.api :as api]
-            [ring.mock.request :as mock]
-            [clojure.test :refer :all]))
-
+  (:require [clojure.test :refer :all]
+            [guaranteed-rate.api :refer [clear-processed-records]]
+            [guaranteed-rate.core :refer [load-files]]
+            [guaranteed-rate.web :refer [handler]]
+            [ring.mock.request :refer [body request]]))
 
 (defn mock-api-call [method uri body-text]
-  (-> (mock/request method uri)
-      (mock/body body-text)
-      (web/handler)))
+  (-> (request method uri)
+      (body body-text)
+      (handler)))
 
 
 (deftest post-record
@@ -29,8 +28,8 @@
       (is (:error body)))))
 
 (deftest get-records
-  (api/clear-processed-records)
-  (core/load-files ["data/test_data_spaces.txt"])
+  (clear-processed-records)
+  (with-out-str (load-files ["data/test_data_spaces.txt"]))
   (testing "get by birthdate"
     (let [{:keys [body]} (mock-api-call
                           :get
