@@ -58,12 +58,14 @@
 (defn exception-report [title exceptions]
   (newline)
   (println (format "** %s ** " title))
-  (doseq [e exceptions]
-    (println (format "File: %s\nLine: %s\nException: %s"
-                     (:original-file e)
-                     (:original-line e)
-                     (:exception-message e)))
-    (newline)))
+  (if (> (count exceptions) 0)
+    (doseq [e exceptions]
+      (println (format "File: %s\nLine: %s\nException: %s"
+                       (:original-file e)
+                       (:original-line e)
+                       (:exception-message e)))
+      (newline))
+    (println "No exceptions recorded.")))
 
 (defn generate-all-reports []
   (doseq [{:keys [title sort]} report-list]
@@ -71,4 +73,4 @@
     (->> sort
          (get-processed-records)
          (record-report title)))
-  (exception-report "Exceptions" (get-processing-exceptions) ))
+  (exception-report "Exceptions" (get-processing-exceptions)))

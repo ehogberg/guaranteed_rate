@@ -3,6 +3,7 @@
   (:require [clojure.tools.cli :refer [parse-opts]]
             [clojure.java.io :refer [reader]]
             [guaranteed-rate.api :as api]
+            [guaranteed-rate.web :refer [start-web]]
             [guaranteed-rate.reporting :as report]))
 
 (def cli-options
@@ -13,7 +14,7 @@
 (defn usage [u errors]
   (println "Usage: record-processing [-p file1 file2 file3...] [-w]")
   (println u)
-  (println "If both -p and -w are specified, only -p will be run.")
+  (println "If both -p and -w are specified, files will first be processed then the web service started.")
   (doseq [e errors] (println e)))
 
 (defn processing-counts [rs]
@@ -43,10 +44,12 @@
        (report/report-file-processing-status)))
 
 (defn process-options [options args]
-  (cond
-    (:process-files options) (do (load-files args)
-                                 (report/generate-all-reports))
-    :else (println "Nothing to do.")))
+  (when (:process-files options)
+    (load-files args)
+    (report/generate-all-reports))
+  
+  (when (:web-service options)
+    (start-web)))
 
 (defn run-program [args]
   (let [{:keys [errors summary options arguments]}
