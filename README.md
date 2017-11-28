@@ -85,7 +85,7 @@ Clojure offers several abstractions which simplify the process of implementing s
 
 ##### Sorted Output
 
-The sorting implementation takes advantage of the Clojure `(sort)` function's ability to accept pluggable keyfuncs (specifying which part of an record's content should be used to sort on) and comparators (functions which evaluate keyfunc data and determine it's ordering relative to other records.)   Rather than write separate functions for each of the 3 required sort types, a general-purpose sort call is made, with keyfunc and comparator definitions particular to the sort type being selected from a lookup map and plugged into the call.  This implementation lets one set of very simple code implement 3 different sorts, and with the benefit of other sort types being easily added in as needed.
+The sorting implementation takes advantage of the Clojure `(sort-by)` function's ability to accept pluggable keyfuncs (specifying which part of an record's content should be used to sort on) and comparators (functions which evaluate keyfunc data and determine it's ordering relative to other records.)   Rather than write separate functions for each of the 3 required sort types, a general-purpose sort call is made, with keyfunc and comparator definitions particular to the sort type being selected from a lookup map and plugged into the call.  This implementation lets one set of very simple code implement 3 different sorts, and with the benefit of other sort types being easily added in as needed.
 
 ##### Web API
 
