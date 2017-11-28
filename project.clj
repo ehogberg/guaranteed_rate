@@ -1,6 +1,5 @@
 (defproject guaranteed_rate "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "Interview technical problem homework for Eric Hogberg's Guaranteed Rate interview process." 
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[clj-time "0.14.2"]
