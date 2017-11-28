@@ -1,5 +1,5 @@
 (ns guaranteed-rate.recordset-test
-  (:require [clj-time.format :refer [formatters parse]]
+  (:require [clj-time.format :refer [formatters formatter parse]]
             [clojure.test :refer :all]
             [guaranteed-rate.recordset
              :refer
@@ -83,6 +83,14 @@
           map-with-birthdate (assoc standard-map
                                     :birthdate-as-date birthdate-as-date)]
       (is (= (convert-birthdate standard-map) map-with-birthdate))))
+  (testing "multiple date formats are supported"
+    (let [converted-dates (map #(:birthdate-as-date (convert-birthdate %))
+                               [{:birthdate "2017-01-01"}
+                                {:birthdate "20170101"}
+                                {:birthdate "01/01/2017"}
+                                {:birthdate "01-01-2017"}])
+          reference-date (parse (formatter "MM/DD/yyyy") "01/01/2017")]
+      (is (every? #(= % reference-date) converted-dates))))
   (testing "invalid date format throws exception on conversion"
     (is (thrown? Exception
                  (convert-birthdate (assoc standard-map

@@ -44,7 +44,7 @@ A demo which loads a number of sample data files then starts the web service can
 
 Both Lein and Java invocations support the following options:
 
-**-p [file1 file2 file3...]** :  Load the content of each of the specified files and process it as records.  File content should be in the format specified by the homework instructions.  One simplifying assumption has been made regarding the line format: birthdates are assumed to be entered in YYYY-MM-DD format; dates in other formats will fail validation.
+**-p [file1 file2 file3...]** :  Load the content of each of the specified files and process it as records.  File content should be in the format specified by the homework instructions.  Most field content is accepted "as-is"; birth date must be in one of the following formats to be accepted: *MM/DD/YYYY*, *MM-DD-YYYY*, *YYYYMMDD* or *YYYY-MM-DD*.
 
 Any number of files may be specified, although wildcards are *not* supported.   After processing is finished, print out all loaded records, using each of the sort orders specified in the homework instructions, followed by a dump of exceptions encountered during loading (if any.)
 
@@ -93,8 +93,6 @@ The API service is implemented using Ring + Compojure for endpoint handling, plu
 
 
 ### Caveats
-
-- As mentioned above, birthdate input is required to use a **YYYY-MM-DD** format, in the interest of not having to write code that iterates through dozens of other potential formats.  This would, obviously, not be acceptable outside of an exercise; the tradeoff chosen here offers simplicity of code.  A future refactoring might address multiple date formats for this field.
 
 - Testing the **core** namespace is a challenge, as most of the namespace's functions are only meaningfully useful in tandem with other job control/processing functions.  The `process-files` test case exercises almost all of this job control functionality via a full multi-file load run and examination of the resulting output for markers demonstrating loading, proper exception handling and inclusion of the various sorted reports.
 
