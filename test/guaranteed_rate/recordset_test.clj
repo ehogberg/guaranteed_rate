@@ -64,24 +64,18 @@
   (testing "Invalid map throws exception"
     (is (thrown? Exception (validate-map {:lname "incomplete"}))))
   (testing "Map containing fields with only spaces is rejected"
-    (is (thrown? Exception (validate-map {:lname "lname"
-                                          :fname "fname"
-                                          :gender " "
-                                          :color "green"
-                                          :birthdate "1987-01-01"}))))
+    (is (thrown? Exception (validate-map (assoc standard-map
+                                                :gender "")))))
   (testing "Nil values for fields still fail validation"
-    (is (thrown? Exception (validate-map {:lname "lname"
-                                          :fname "fname"
-                                          :gender "male"
-                                          :color "green"
-                                          :birthdate nil})))))
+    (is (thrown? Exception (validate-map (assoc standard-map
+                                                :birthdate nil))))))
 
 (deftest birthday-conversion
   (testing "birthdate is properly converted to a proper Date type"
-    (let [birthdate-as-date (parse (formatters :date)
-                                      (:birthdate standard-map))
-          map-with-birthdate (assoc standard-map
-                                    :birthdate-as-date birthdate-as-date)]
+    (let [map-with-birthdate (->> (:birthdate standard-map)
+                                  (parse (formatters :date))
+                                  (assoc standard-map 
+                                         :birthdate-as-date))]
       (is (= (convert-birthdate standard-map) map-with-birthdate))))
   (testing "multiple date formats are supported"
     (let [converted-dates (map #(:birthdate-as-date (convert-birthdate %))
