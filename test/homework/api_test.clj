@@ -1,6 +1,6 @@
-(ns guaranteed-rate.api-test
+(ns homework.api-test
   (:require [clojure.test :refer :all]
-            [guaranteed-rate.api
+            [homework.api
              :refer
              [clear-processed-records
               get-processed-records

@@ -1,6 +1,6 @@
-# guaranteed_rate
+# homework
 
-Solution to programming problem given as part of Eric Hogberg's interview for the Clojure software engineer position with Guaranteed Rate.
+Solution to programming problem.
 
 ## Installation
 
@@ -8,7 +8,7 @@ You'll need Leiningen on your development box before doing any of the following.
 
 Installation:
 
-	git clone git@github.com:ehogberg/guaranteed_rate.git
+	git clone git@github.com:ehogberg/homework.git
 	cd $PROJECTDIR
 	lein deps
 
@@ -16,7 +16,7 @@ Optionally you can build a stand-alone JAR file:
 
 	lein uberjar
 	
-This will generate `$PROJECTDIR/target/uberjar/guaranteed_rate-0.1.0-SNAPSHOT-standalone.jar`
+This will generate `$PROJECTDIR/target/uberjar/homework-0.1.0-SNAPSHOT-standalone.jar`
 
 
 The test suite can be run using:
@@ -33,7 +33,7 @@ Note that the `--` before the arguments are required.
 
 or (much faster, but requires a JAR build.):
 
-    $ java -jar /path/to/uberjar/guaranteed_rate-0.1.0-standalone.jar [args]
+    $ java -jar /path/to/uberjar/homework-0.1.0-standalone.jar [args]
 
 A demo which loads a number of sample data files then starts the web service can be run using:
 

@@ -1,12 +1,12 @@
-(ns guaranteed-rate.core
+(ns homework.core
   (:gen-class)
   (:require [clojure.java.io :refer [reader]]
             [clojure.tools.cli :refer [parse-opts]]
-            [guaranteed-rate.api :refer [process-record]]
-            [guaranteed-rate.reporting
+            [homework.api :refer [process-record]]
+            [homework.reporting
              :refer
              [generate-all-reports report-file-processing-status]]
-            [guaranteed-rate.web :refer [start-web]]))
+            [homework.web :refer [start-web]]))
 
 (def cli-options
   [["-w" "--web-service" "Start JSON web service"]

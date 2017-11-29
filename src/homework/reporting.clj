@@ -1,6 +1,6 @@
-(ns guaranteed-rate.reporting
-  (:require [guaranteed-rate.api :refer [get-processed-records
-                                         get-processing-exceptions]]))
+(ns homework.reporting
+  (:require [homework.api :refer [get-processed-records
+                                  get-processing-exceptions]]))
 
 
 ;; Status report for a file upload job

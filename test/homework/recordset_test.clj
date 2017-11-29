@@ -1,7 +1,7 @@
-(ns guaranteed-rate.recordset-test
+(ns homework.recordset-test
   (:require [clj-time.format :refer [formatters formatter parse]]
             [clojure.test :refer :all]
-            [guaranteed-rate.recordset
+            [homework.recordset
              :refer
              [convert-birthdate parse-line to-map validate-map]]))
 

@@ -1,4 +1,4 @@
-(ns guaranteed-rate.recordset
+(ns homework.recordset
   (:require [clj-time.format :refer [formatters formatter parse]]
             [clojure.string :refer [split]]))
 

@@ -1,7 +1,7 @@
-(ns guaranteed-rate.web
+(ns homework.web
   (:require [compojure.core :refer [defroutes context GET POST]]
             [compojure.route :refer [not-found]]
-            [guaranteed-rate.api :refer [process-record get-processed-records]]
+            [homework.api :refer [process-record get-processed-records]]
             [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.json :refer [wrap-json-response]]
             [ring.util.response :refer [response status]]))

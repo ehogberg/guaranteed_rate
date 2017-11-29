@@ -1,7 +1,7 @@
-(ns guaranteed-rate.api
+(ns homework.api
   (:require [clj-time.format :refer [unparse formatter]]
             [clojure.string :refer [lower-case]]
-            [guaranteed-rate.recordset :refer [transform-line-to-record]]))
+            [homework.recordset :refer [transform-line-to-record]]))
 
 ;; Shared state for processed record storage.
 ;; A ref is chosen over an atom b/c this will
