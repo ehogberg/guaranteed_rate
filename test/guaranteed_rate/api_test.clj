@@ -41,21 +41,22 @@
   (doseq [l lines] (process-record l))
   (testing "sort by last name"
     (let [r (get-processed-records :lastname)
-          first-record (first r)
-          last-record (last r)]
-      (is (= "Jones" (:lname first-record)))
-      (is (= "bittner" (:lname last-record)))))
+          {first-record-lname :lname} (first r)
+          {last-record-lname :lname} (last r)]
+      (is (= "Jones" first-record-lname))
+      (is (= "bittner" last-record-lname))))
   (testing "sort by birthdate"
     (let [r (get-processed-records :birthdate)
-          first-record (first r)
-          last-record (last r)]
-      (is (= "01/28/1987" (:birthdate first-record)))
-      (is (= "06/19/2006" (:birthdate last-record)))))
+          {first-record-birthdate :birthdate} (first r)
+          {last-record-birthdate :birthdate} (last r)]
+      (is (= "01/28/1987" first-record-birthdate))
+      (is (= "06/19/2006" last-record-birthdate))))
   (testing "sort by gender/lastname"
     (let [r (get-processed-records :gender-lname)
-          first-record (first r)
-          last-record (last r)]
-      (is (and (= "valerie" (:fname first-record))
-               (= "hogberg" (:lname first-record))))
-      (is (and (= "Jones" (:lname last-record)))))))
+          {first-record-fname :fname
+           first-record-lname :lname} (first r)
+          {last-record-lname :lname} (last r)]
+      (is (and (= "valerie" first-record-fname)
+               (= "hogberg" first-record-lname)))
+      (is (and (= "Jones" last-record-lname))))))
 

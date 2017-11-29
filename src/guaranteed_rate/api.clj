@@ -73,10 +73,9 @@
 (defn get-processed-records
   ([] (map format-record @processed-records))
   ([sort-type]
-   (let [{keyfunc        :keyfunc
-          comparator-fxn :comparator} (get sorting-functions sort-type)]
+   (let [{:keys [keyfunc comparator]} (get sorting-functions sort-type)]
      (->> @processed-records
-          (sort-by keyfunc comparator-fxn)
+          (sort-by keyfunc comparator)
           (map format-record)))))
 
 (defn get-processing-exceptions [] @processing-exceptions)
