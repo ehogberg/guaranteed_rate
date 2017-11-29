@@ -2,8 +2,10 @@
   (:gen-class)
   (:require [clojure.java.io :refer [reader]]
             [clojure.tools.cli :refer [parse-opts]]
-            [guaranteed-rate.api :as api]
-            [guaranteed-rate.reporting :as report]
+            [guaranteed-rate.api :refer [process-record]]
+            [guaranteed-rate.reporting
+             :refer
+             [generate-all-reports report-file-processing-status]]
             [guaranteed-rate.web :refer [start-web]]))
 
 (def cli-options
@@ -31,7 +33,7 @@
       (with-open [rdr (reader f)]
         (as-> rdr v
           (line-seq v)
-          (map #(api/process-record % f) v)
+          (map #(process-record % f) v)
           (processing-counts v)
           (assoc v :file f :processing-complete true)))
       (catch Exception e
@@ -41,12 +43,12 @@
   (->> files
        (map process-file)
        (map deref)
-       (report/report-file-processing-status)))
+       (report-file-processing-status)))
 
 (defn process-options [options args]
   (when (:process-files options)
     (load-files args)
-    (report/generate-all-reports))
+    (generate-all-reports))
   (when (:web-service options)
     (start-web)))
 

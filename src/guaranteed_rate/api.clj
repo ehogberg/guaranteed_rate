@@ -1,5 +1,5 @@
 (ns guaranteed-rate.api
-  (:require [clj-time.format :as tf]
+  (:require [clj-time.format :refer [unparse formatter]]
             [clojure.string :refer [lower-case]]
             [guaranteed-rate.recordset :refer [transform-line-to-record]]))
 
@@ -46,7 +46,7 @@
                  conj (format-processing-exception l f e))))
 
 (defn- formatted-birthdate [r]
-  (tf/unparse (tf/formatter "MM/dd/yyyy") (:birthdate-as-date r)))
+  (unparse (formatter "MM/dd/yyyy") (:birthdate-as-date r)))
 
 (defn- format-record [r]
   (-> r
