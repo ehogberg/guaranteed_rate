@@ -1,9 +1,9 @@
-(ns guaranteed-rate.core-test
+(ns homework.core-test
   (:require [clojure.string :refer [includes?]]
             [clojure.test :refer :all]
             [clojure.tools.cli :refer [parse-opts]]
-            [guaranteed-rate.api :refer [clear-processed-records]]
-            [guaranteed-rate.core :refer [cli-options process-options]]))
+            [homework.api :refer [clear-processed-records]]
+            [homework.core :refer [cli-options process-options]]))
 
 (deftest cli-parsing
   (testing "invalid flags"

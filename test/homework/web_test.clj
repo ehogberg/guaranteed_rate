@@ -1,8 +1,8 @@
-(ns guaranteed-rate.web-test
+(ns homework.web-test
   (:require [clojure.test :refer :all]
-            [guaranteed-rate.api :refer [clear-processed-records]]
-            [guaranteed-rate.core :refer [load-files]]
-            [guaranteed-rate.web :refer [handler]]
+            [homework.api :refer [clear-processed-records]]
+            [homework.core :refer [load-files]]
+            [homework.web :refer [handler]]
             [ring.mock.request :refer [body request]]))
 
 (defn mock-api-call [method uri body-text]
