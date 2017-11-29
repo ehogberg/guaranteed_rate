@@ -6,16 +6,18 @@
 ;; Status report for a file upload job
 (defn report-file-processing-status [jobs]
   (doseq [job-info jobs]
-    (let [status
-          (cond (:processing-complete job-info)
-                (format "File %s processing complete (%d records added, %d exceptions)"
-                        (:file job-info)
-                        (:records-processed job-info)
-                        (:exception-count job-info))
-                (:err-message job-info)
-                (format "File %s encountered a fatal exception: %s"
-                        (:file job-info)
-                        (:err-message job-info)))]
+    (let [{:keys [processing-complete
+                  file
+                  records-processed
+                  exception-count
+                  err-message]} job-info
+          status (cond
+                   processing-complete
+                   (format "File %s processing complete (%d records added, %d exceptions)"
+                           file records-processed exception-count)
+                   err-message
+                   (format "File %s encountered a fatal exception: %s"
+                           file err-message))]
       (println status))))
 
 
@@ -59,11 +61,9 @@
   (newline)
   (println (format "** %s ** " title))
   (if (> (count exceptions) 0)
-    (doseq [e exceptions]
+    (doseq [{:keys [original-file original-line exception-message]} exceptions]
       (println (format "File: %s\nLine: %s\nException: %s"
-                       (:original-file e)
-                       (:original-line e)
-                       (:exception-message e)))
+                       original-file original-line exception-message))
       (newline))
     (println "No exceptions recorded.")))
 
